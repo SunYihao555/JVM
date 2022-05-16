@@ -34,10 +34,14 @@ func Parse(classData []byte) (cf *ClassFile, err error) {
 func (self *ClassFile) read(reader *ClassReader) {
 	self.readAndCheckMagic(reader)
 	self.readAndeCheckVersion(reader)
-	//self.constantPool = self.ConstantPool()
+	self.constantPool = readConstantPool(reader)
 	self.accessFlags = reader.readUint16()
 	self.thisClass = reader.readUint16()
 	self.superClass = reader.readUint16()
+	self.interfaces = reader.readUint16s()
+	self.fields = readMembers(reader, self.constantPool)
+	self.methods = readMembers(reader, self.constantPool)
+	self.attributes = readAttributes(reader, self.constantPool)
 
 }
 func (self *ClassFile) readAndCheckMagic(reader *ClassReader) {

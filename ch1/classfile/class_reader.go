@@ -35,7 +35,7 @@ func (self *ClassReader) readUint16s() []uint16 {
 	return s
 }
 func (self *ClassReader) readBytes(length uint32) []byte {
-	bytes := self.data[:8]
+	bytes := self.data[:length]
 	self.data = self.data[length:]
 	return bytes
 }
